@@ -11,7 +11,6 @@ class Node:
 class SLL:
     def __init__(self):
         self.head = None
-        self.next = None
         self._size = 0
 
     def __str__(self) -> str:
