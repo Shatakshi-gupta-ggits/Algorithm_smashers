@@ -109,5 +109,5 @@ This repository focuses on:
 
 Vishal Kumar
 
-GitHub: https://github.com/Vishal-Kumar-Patel
+GitHub: https://github.com/Vishal-Kumar-Patel/Linked-List
 ****
