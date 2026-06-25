@@ -45,27 +45,31 @@ if __name__ == "__main__":
     for num in arr:
         lst.append(num)
 
-    while True:
-        if len(lst) == 0:
-            arr = [base.random.randrange(0,101) for _ in range(base.random.randrange(5,21))]
+    test_cases = 10000
 
-            lst = base.SLL()
+    total_tests = 0
+    for _ in range(test_cases):
+            if len(lst) == 0:
+                arr = [base.random.randrange(0,101) for _ in range(base.random.randrange(5,21))]
 
-            for num in arr:
-                lst.append(num)
+                lst = base.SLL()
 
+                for num in arr:
+                    lst.append(num)
+
+                
+            print(lst)
+            print("Size: ", len(lst))
+            n = base.random.randint(1, len(lst))
             
-        print(lst)
-        print("Size: ", len(lst))
-        n = base.random.randint(1, len(lst))
-        
-        print("Nth Position: ", n)
-        try:
-            delete_nth_from_last(lst, n)
-        except RuntimeError as e:
-            print(e)
-            print()
+            print("Nth Position: ", n)
+            try:
+                delete_nth_from_last(lst, n)
+            except RuntimeError as e:
+                print(e)
+                print()
 
-        
+            total_tests += 1
+ 
 
-    print(lst)
+    print(total_tests)
