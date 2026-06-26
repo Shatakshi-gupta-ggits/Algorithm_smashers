@@ -1,5 +1,4 @@
 import random
-from typing import Optional
 
 
 class Node:
@@ -16,13 +15,15 @@ class SLL:
     # for printing the list using SLL object
     def __str__(self) -> str:
         curr: Node | None = self.head
-        values:list[int] = []
+        values:list[str] = []
 
         while curr is not None:
             values.append(str(curr.data))
             curr = curr.next
 
         return "->".join(values)
+    
+
     
 
     
@@ -44,63 +45,90 @@ class SLL:
 
 
 # They have stopped using Optional[SLL]. They say "type | None" is best
-def merge(lst1:Node | None, lst2:Node | None) -> Node | None:
-    head1: Node | None = lst1.head
-    head2: Node | None = lst2.head
+def merge(lst1: Node | None, lst2: Node | None) -> Node | None:
+    head1: Node | None = lst1
+    head2: Node | None = lst2
 
-    dummy: SLL = SLL()
-    dummy.append(-1)
-    tail = dummy.head
+    dummy_head: Node = Node(-1)
+    tail: Node = dummy_head
 
     while head1 and head2:
         if head1.data <= head2.data:
-            new_node = Node(head1.data)
-            tail.next = new_node
+            tail.next = Node(head1.data)
             head1 = head1.next
         else:
-            new_node = Node(head2.data)
-            tail.next = new_node
+            tail.next = Node(head2.data)
             head2 = head2.next
         tail = tail.next
 
     while head1:
-        new_node = Node(head1.data)
-        tail.next = new_node
+        tail.next = Node(head1.data)
         tail = tail.next
         head1 = head1.next
 
-    
     while head2:
-        new_node = Node(head2.data)
-        tail.next = new_node
+        tail.next = Node(head2.data)
         tail = tail.next
         head2 = head2.next
 
-    
-
-    dummy.head = dummy.head.next
-    return dummy
+    return dummy_head.next
 
 
-def get_size(lst:Optional[SLL]) -> Optional[SLL]:
-    walker = lst.head
+def get_size(head: Node | None) -> int:
+    n: int = 0
+    walker: Node | None = head
 
-    n = 0
-
-    while walker:
+    while walker is not None:
         n += 1
         walker = walker.next
 
     return n
 
 
+def intersect(head1: Node | None, head2: Node | None) -> None:
+    if head1 is None or head2 is None:
+        return
+    
+    start1: Node | None = head1
+    start2: Node | None = head2
+
+    n = random.randrange(1, get_size(head1))
+
+    # for _ in range(n):
+    #     assert start1 is not None
+    #     start1 = start1.next
+
+    while n and start1.next is not None:
+        n -= 1
+        start1 = start1.next
+    # assert start2 is not None
+    # while start2.next is not None:
+    #     start2 = start2.next
+
+    # start2.next = start1
+    start1.next = start2
+
+
+
+def print_list(head: Node | None) -> None:
+    if head is None:
+        return
+    
+    walker: Node | None = head
+
+    while walker is not None:
+        print(walker.data, end="->")
+        walker = walker.next
+
+    print("-1")
+
 
 
 if __name__ == "__main__":
     test_cases = 0
-    while test_cases <= 1000:
-        arr1 = [random.randrange(0, 101) for _ in range(random.randrange(5, 21))]
-        arr2 = [random.randrange(0, 101) for _ in range(random.randrange(5, 21))]
+    while test_cases < 1:
+        arr1 = [random.randrange(0, 101) for _ in range(random.randrange(5, 7))]
+        arr2 = [random.randrange(0, 101) for _ in range(random.randrange(5, 7))]
 
         lst1 = SLL()
         lst2 = SLL()
@@ -114,13 +142,17 @@ if __name__ == "__main__":
         print("List1: ", lst1)
         print("List2: ", lst2)
 
-        lst = merge(lst1, lst2)
-        print("Merged List: ", lst)
+        lst = merge(lst1.head, lst2.head)
+        print("Merged List: ")
+        print_list(lst)
 
         print("Size of list1: ", len(lst1))
         print("Size of list2: ", len(lst2))
         print("Size of merged list: ", get_size(lst))
 
         test_cases += 1
+
+        intersect(lst1.head, lst2.head)
+        print_list(lst1.head)
     
     print(test_cases)
